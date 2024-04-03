@@ -21,7 +21,7 @@ protocol Review {
     var userImage: String
     var username: String
     var userLocation: String
-    var rate: Double
+    var rate: Float
     var content: String?
     var postedTime: Date
     var isLiked: Bool?
@@ -32,7 +32,7 @@ protocol Review {
 protocol NearbyPopularPlace {
     var mainPhoto: String
     var name: String
-    var rate: Double?
+    var rate: Float?
     var reviewCount: Int?
     var id: String
 }

@@ -1,7 +1,7 @@
 protocol SavedLocation {
     var mainPhoto: String
     var name: String
-    var rate: Double?
+    var rate: Float?
     var reviewCount: Int?
     var description: String?
     var id: String

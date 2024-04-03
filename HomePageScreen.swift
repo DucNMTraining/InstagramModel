@@ -19,7 +19,7 @@ protocol Coupon {
 protocol PopularLocation {
     var mainPhoto: String
     var name: String
-    var rate: Double?
+    var rate: Float?
     var isLiked: Bool?
     var id: String
 }
