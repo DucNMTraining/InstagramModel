@@ -1,7 +1,7 @@
 # Swift Style Guide
 
 ## Tính đúng đắn
-Cố gắng không để code có  QASWER5T67Y890-POI654321`  warning.
+Cố gắng không để code có warning.
 
 ## Sử dụng SwiftLine
 Các tác giả của bài viết khuyến khích sử dụng công cụ của họ - [SwiftLine](https://github.com/kodecocodes/swift-style-guide/blob/main/SWIFTLINT.markdown).
