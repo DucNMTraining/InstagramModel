@@ -1,9 +1,9 @@
 protocol LocationDetail {
-    var photos: String
-    var title: String
+    var photos: [String]
+    var name: String
     var location: String
     var distance: String
-    var rate: Double
+    var rate: Float
     var reviewCount: Int
     var description: String
     var id: String
@@ -12,7 +12,7 @@ protocol LocationDetail {
 protocol NearbyHotel {
     var mainPhoto: String
     var name: String
-    var rate: Double?
+    var rate: Float?
     var reviewCount: Int?
     var id: String
 }
@@ -38,7 +38,7 @@ protocol NearbyPopularPlace {
 }
 
 protocol HomePageDetailedScreenData {
-    var locationDetails: [LocationDetail]
+    var locationDetail: LocationDetail
     var nearbyHotels: [NearbyHotel]
     var reviews: [Review]
     var nearbyPopularPlaces: [NearbyPopularPlace]

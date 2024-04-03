@@ -3,7 +3,7 @@ protocol SavedLocation {
     var name: String
     var rate: Double?
     var reviewCount: Int?
-    var description: String
+    var description: String?
     var id: String
 }
 
