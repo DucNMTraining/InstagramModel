@@ -375,7 +375,7 @@ Chỉ sử dụng self khi được yêu cầu bởi trình biên dịch (trong 
 
 ### Computed Properties
 
-Để đảm bảo tính ngắn gọn, nếu computed property là chỉ đoc (__read-only__), hãy bỏ mệnh đề _get_. Mệnh đề _get_ chỉ bắt buộc sử dụng khi có mệnh đề _set_.
+Để đảm bảo tính ngắn gọn, nếu computed property là chỉ đọc (__read-only__), hãy bỏ mệnh đề _get_. Mệnh đề _get_ chỉ bắt buộc sử dụng khi có mệnh đề _set_.
 
 - Đề xuất:
 
@@ -729,7 +729,7 @@ Sử dụng các cú pháp khai báo ngắn gọn thay vì các cú pháp đầy
 
 ## Hàm và phương thức
 
-Cac hàm tự do (không thuộc class hay type nào), nên hạn chế sử dụng. Khi có thể, ưu tiên sử dụng một phương thức thay vì một hàm tự do. Việc này hỗ trợ khả năng đọc và khám phá.
+Các hàm tự do (không thuộc class hay type nào), nên hạn chế sử dụng. Khi có thể, ưu tiên sử dụng một phương thức thay vì một hàm tự do. Việc này hỗ trợ khả năng đọc và khám phá.
 Hàm tự do chỉ phù hợp khi nó không liên quan tới một type hay instance cụ thể nào.
 
 - Đề xuất:
@@ -755,7 +755,7 @@ Hàm tự do chỉ phù hợp khi nó không liên quan tới một type hay ins
 
 ## Quản lý bộ nhớ
 
-Khi code (kể cả non-production, code hướng dẫn) không nên tạo các chu kỳ tham chiếu (__reference cycle__). Phân tích biểu đồ đối tượng và ngăn chặn các chu kỳ mạnh (strong cycles) với tham chiếu yếu (__weak__) và vô danh (__unowed__). Ngoài ra, sử dụng các kiểu giá trị (__struct__, __enum__) để ngăn chặn hoàn toàn các chu kỳ.
+Khi code (kể cả non-production, code hướng dẫn) không nên tạo các vòng lặp tham chiếu (__reference cycle__). Phân tích biểu đồ đối tượng và ngăn chặn các vòng lặp mạnh (strong cycles) với tham chiếu yếu (__weak__) và vô danh (__unowed__). Ngoài ra, sử dụng các kiểu giá trị (__struct__, __enum__) để ngăn chặn hoàn toàn các vòng lặp.
 
 ### Kéo dài vòng đời của một đối tượng
 
@@ -972,7 +972,7 @@ let swift = "not a scripting language"
 let swift = "not a scripting language";
 ```
 
-Lưu ý: Swift rất khác so với JavaScript, chỗ mà bỏ dấu chấm phảy thường [không an toàn](https://stackoverflow.com/questions/444080/do-you-recommend-using-semicolons-after-every-statement-in-javascript).
+Lưu ý: Swift rất khác so với JavaScript, trong JavaScript, bỏ dấu chấm phảy thường [không an toàn](https://stackoverflow.com/questions/444080/do-you-recommend-using-semicolons-after-every-statement-in-javascript).
 
 ## Dấu ngoặc đơn
 
@@ -1045,4 +1045,4 @@ không sử dụng emoji ở trong các dự án. Với những người thực 
 
 ## Không dùng #imageLiteral hoặc #colorLiteral
 
-Tương tự, không sử dụng các tính năng kéo thả màu hoặc ảnh của Xcode vào code. Chúng sẽ tương ứng trở thành __#colorLiteral__ và __#imageLiteral__, gây ra thách thức với người đọc đang cố nhập chúng theo tutorial. Thay vì đó, sử dụng __UIColor(red:green:blue)__ và __UIImage(imageLiteralResourceName:)__.
+Tương tự, không sử dụng các tính năng kéo thả màu hoặc ảnh của Xcode vào code. Chúng sẽ tương ứng trở thành __#colorLiteral__ và __#imageLiteral__, gây ra thách thức với người đọc đang cố nhập chúng theo mẫu. Thay vì đó, sử dụng __UIColor(red:green:blue)__ và __UIImage(imageLiteralResourceName:)__.
