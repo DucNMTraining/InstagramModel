@@ -514,4 +514,104 @@ Có thể định nghĩa hằng số trên một type thay vì trên một insta
 
   let hypotenuse = side * root2 // what is root2?
   ```
-### Hàm static và các loại thuộc tính của biến
+### Hàm static và biến type property
+Các hàm static và các type property làm việc giống như những hàm global và những biến global, chúng nên được sử dụng một cách cẩn thận. Chúng hũu ích khi chức năng nằm trong một phạm vi cụ thể hoặc khi cần tương tác với Objective-C.
+### Optionals
+Khai báo biến hoặc hàm với kiểu trả về là optional với dấu __?__ ở cuối, khi đó các giá trị được chấp nhận có thể là __nil__.
+Sử dụng unwrapped ngầm với dấu __!__ chỉ cho biến hằng mà đã biết chắc rằng nó sẽ được khởi tạo sau trước khi sử dụng, giống như subview sẽ được set up trong __viewDidLoad()__. Ưu tiên sử dụng binding cho optional hơn là unwrapped ngầm trong phần lớn các trường hợp.
+Khi truy cập vào một giá trị optional, sử dụng optional chaining nếu giá trị đó chỉ truy cập một lần hoặc có nhiều optional trong chuỗi:
+  ```swift
+  textContainer?.textLabel?.setNeedsDisplay()
+  ```
+Sử dụng binding cho optional khi nó thuận tiện hơn cho unwrap một optional và cần phải thực hiện nhiều hành động:
+  ```swift
+  if let textContainer = textContainer {
+    // do many things with textContainer
+  }
+  ```
+Lưu ý: Swift 5.7 có cú pháp gắn gọn hơn cho unwrapping optional:
+  ```swift
+  if let textContainer {
+    // do many things with textContainer
+  }
+  ```
+Khi đặt tên cho biến cũng như các thuộc tính optional, tránh đặt tên chúng theo kiểu __optionalString__ hoặc __maybeView__ vì việc thể hiện chúng là optional đã có trong khai báo kiểu.
+Với binding cho optional, sử dụng tên biến giống với tên gốc bất cứ khi nào có thể, hơn là sử dụng tên kiểu như __unwrappedView__ hoặc __actualLabel__.
+  - Đề xuất:
+  ```swift
+  var subview: UIView?
+  var volume: Double?
+
+  // later on...
+  if let subview = subview, let volume = volume {
+    // do something with unwrapped subview and volume
+  }
+
+  // another example
+  resource.request().onComplete { [weak self] response in
+    guard let self = self else { return }
+    let model = self.updateModel(response)
+    self.updateUI(model)
+  }
+  ```
+  - Không nên:
+  ```swift
+  var optionalSubview: UIView?
+  var volume: Double?
+
+  if let unwrappedSubview = optionalSubview {
+    if let realVolume = volume {
+      // do something with unwrappedSubview and realVolume
+    }
+  }
+
+  // another example
+  UIView.animate(withDuration: 2.0) { [weak self] in
+    guard let strongSelf = self else { return }
+    strongSelf.alpha = 1.0
+  }
+  ```
+### Khởi tạo _lazy_
+Cân nhắc việc khởi tạo _lazy_ để chi tiết hơn trong việc kiểm soát vòng đời của một đối tượng. Điều này hoàn toàn đúng với __UIViewController__ với việc load view một cách _lazy_. Bạn có thể sử dụng một closure được gọi ngay lập tức bằng __{} ()__ hoặc gọi một private factory method. Ví dụ:
+  ```swift
+  lazy var locationManager = makeLocationManager()
+
+  private func makeLocationManager() -> CLLocationManager {
+    let manager = CLLocationManager()
+    manager.desiredAccuracy = kCLLocationAccuracyBest
+    manager.delegate = self
+    manager.requestAlwaysAuthorization()
+    return manager
+  }
+  ```
+Lưu ý:
+  - __[unowed self]__ không bắt buộc dùng ở đây vì retain cycle không được tạo.
+  - 
+### Suy luận kiểu dữ liệu
+Ưu tiên viết code ngắn gọn và để cho trình biên dịch tự suy luận kiểu cho hằng và biến trong các trường hợp đơn lẻ. Tự suy luận kiểu dữ liệu chỉ phù hợp với mảng nhỏ, không rỗng và dictionary. Khi bắt buộc, chỉ định các kiểu cụ thể như __CGFloat__ và __Int16__.
+  - Đề xuất:
+  ```swift
+  let message = "Click the button"
+  let currentBounds = computeViewBounds()
+  var names = ["Mic", "Sam", "Christine"]
+  let maximumWidth: CGFloat = 106.5
+  ```
+  - Không nên:
+  ```swift
+  let message: String = "Click the button"
+  let currentBounds: CGRect = computeViewBounds()
+  var names = [String]()
+  ```
+#### Chú thích kiểu cho mảng và dictionary rỗng
+ Với những mảng và dictionary rỗng, sử dụng chú thích cho kiểu dữ liệu.
+  - Đề xuất:
+  ```swift
+  var names: [String] = []
+  var lookup: [String: Int] = [:]
+  ```
+  - Không nên:
+  ```swift
+  var names = [String]()
+  var lookup = [String: Int]()
+  ```
+###
