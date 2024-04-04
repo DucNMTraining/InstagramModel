@@ -411,7 +411,7 @@ Chỉ sử dụng self khi được yêu cầu bởi trình biên dịch (trong 
 
 ## Khai báo hàm
 
-Khai báo những hàm ngắn trong 1 dòng kể cả dấu đóng ngoặc:
+Khai báo những hàm ngắn trong 1 dòng kể cả dấu mở ngoặc:
 
 ```swift
 func reticulateSplines(spline: [Double]) -> Bool {
@@ -879,3 +879,170 @@ Toán tử ba ngôi, __?:__, chỉ nên sử dụng khi nó tăng sự rõ ràng
   ```swift
   result = a > b ? x = c > d ? c : d : y
   ```
+
+## Golden Path
+
+Khi code với các câu lệnh điều kiện, margin phía bên trái của code nên là "golden" hoặc "happy" path. Nó có nghĩa là không lồng các câu lệnh __if__. Nhiều câu lệnh trả về thì được. Câu lệnh __guard__ được xây dựng cho điều này.
+
+- Đề xuất:
+
+```swift
+func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
+  guard let context = context else {
+    throw FFTError.noContext
+  }
+  guard let inputData = inputData else {
+    throw FFTError.noInputData
+  }
+
+  // use context and input to compute the frequencies
+  return frequencies
+}
+```
+
+- Không nên:
+
+```swift
+func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
+  if let context = context {
+    if let inputData = inputData {
+      // use context and input to compute the frequencies
+
+      return frequencies
+    } else {
+      throw FFTError.noInputData
+    }
+  } else {
+    throw FFTError.noContext
+  }
+}
+```
+
+Khi nhiều optional được unwrapped với __guard__ hoặc __if let__, tối thiểu việc lồng nhau bằng cách gộp nếu có thể. Cách lồng nhau, để __guard__ ở một dòng riêng, sau đó là các dòng, mỗi dòng chứa 1 điều kiện và thụt lề so với __guard__. Mệnh đề __else__ sẽ được thụt lề trùng với __guard__ của nó, như ví dụ dưới đây:
+
+- Đề xuất:
+
+```swift
+guard 
+  let number1 = number1,
+  let number2 = number2,
+  let number3 = number3 
+else {
+  fatalError("impossible")
+}
+// do something with numbers
+```
+
+- Không nên:
+
+```swift
+if let number1 = number1 {
+  if let number2 = number2 {
+    if let number3 = number3 {
+      // do something with numbers
+    } else {
+      fatalError("impossible")
+    }
+  } else {
+    fatalError("impossible")
+  }
+} else {
+  fatalError("impossible")
+}
+```
+
+### Failing Guard
+
+Câu lệnh __guard__ cần phải được thoát bằng một cách nào đó. Nói chung, đây nên là câu lệnh một dòng đơn giản như __return__, __throw__, __break__, __continue__, và __fatalError()__. Nên tránh sử dụng các khối code lớn trông câu lệnh __guard__. Nếu cần phải thực hiện các tác vụ dọn dẹp cho nhiều điểm thoát ra, cân nhắc sử dụng khối code __defer__ để tránh trùng lặp các đoạn code dọn dẹp.
+
+## Dấu chấm phảy
+
+Swift không yên cầu phải có các dấu chấm phảy sau mỗi câu lệnh. Chúng chỉ được yêu cầu khi cần nhiều câu lệnh trên một dòng.
+Không viết quá nhiều câu lệnh trên một dòng với dấu chấm phảy.
+
+- Đề xuất:
+
+```swift
+let swift = "not a scripting language"
+```
+
+- Không nên:
+
+```swift
+let swift = "not a scripting language";
+```
+
+Lưu ý: Swift rất khác so với JavaScript, chỗ mà bỏ dấu chấm phảy thường [không an toàn](https://stackoverflow.com/questions/444080/do-you-recommend-using-semicolons-after-every-statement-in-javascript).
+
+## Dấu ngoặc đơn
+
+Đặt câu lệnh điều kiện trong dấu ngoặc đơn là không cần thiết và nên loại bỏ nó.
+
+- Đề xuất:
+
+```swift
+if name == "Hello" {
+  print("World")
+}
+```
+
+- Không nên:
+
+```swift
+if (name == "Hello") {
+  print("World")
+}
+```
+
+Ở trong một biểu thức lớn, đôi khi việc thêm dấu ngoặc đơn có thể khiến code rõ ràng hơn.
+
+- Đề xuất:
+
+```swift
+let playerMark = (player == current ? "X" : "O")
+```
+
+## Chuỗi kí tự trong nhiều dòng
+
+Khi tạo một chuỗi kí tự trong nhiều dòng, có thể sử dụng cú pháp chuỗi kí tự nhiều dòng. Dùng dấu mở chuỗi kí tự trên cùng dòng và không thêm kí tự nào trên dòng đó. Thụt lề 1 level cho khối text.
+
+- Đề xuất:
+
+```swift
+let message = """
+  You cannot charge the flux \
+  capacitor with a 9V battery.
+  You must use a super-charger \
+  which costs 10 credits. You currently \
+  have \(credits) credits available.
+  """
+```
+
+- Không nên:
+
+```swift
+let message = """You cannot charge the flux \
+  capacitor with a 9V battery.
+  You must use a super-charger \
+  which costs 10 credits. You currently \
+  have \(credits) credits available.
+  """
+```
+
+- Không nên:
+
+```swift
+let message = "You cannot charge the flux " +
+  "capacitor with a 9V battery.\n" +
+  "You must use a super-charger " +
+  "which costs 10 credits. You currently " +
+  "have \(credits) credits available."
+```
+
+## Không dùng emoji
+
+không sử dụng emoji ở trong các dự án. Với những người thực sự code mã của họ, nó thực sự không cần thiết. Có thể nó dễ thương, nhưng nó không hỗ trợ cho việc học cũng như làm gián đoạn quá trình đọc code.
+
+## Không dùng #imageLiteral hoặc #colorLiteral
+
+Tương tự, không sử dụng các tính năng kéo thả màu hoặc ảnh của Xcode vào code. Chúng sẽ tương ứng trở thành __#colorLiteral__ và __#imageLiteral__, gây ra thách thức với người đọc đang cố nhập chúng theo tutorial. Thay vì đó, sử dụng __UIColor(red:green:blue)__ và __UIImage(imageLiteralResourceName:)__.
