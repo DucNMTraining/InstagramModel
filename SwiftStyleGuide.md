@@ -22,8 +22,8 @@ Việc đặt tên mang tính mô tả và tính nhất quán sẽ khiến phầ
 - cố gắng sử dụng một cách trôi chảy
 - bắt đầu những _factory methods_ với từ khoá __make__
 - đặt tên hàm theo các chức năng của chúng:
-  - các hàm hành động tuân thủ theo quy tắc "-ed", "-ing" cho các phiên bản không thay đổi (non-mutating)
-  - các hàm danh từ tuân thủ theo quy tắc formX cho phiên bản thay đổi (mutating)
+  - các phương thức phi đột biến (non-mutating) tuân thủ theo quy tắc "-ed", "-ing", tuỳ thuộc vào hành động mà phương thức thực hiện
+  - các phương thức đột biến (mutating) tuân thủ theo quy tắc formX, trong đó X thường là danh từ mô tả cho thay đổi mà phương thức thực hiện trên đối tượng
   - tên của các kiểu boolean phải được hiểu là một cách khẳng định
   - các protocol miêu tả một thứ gì đó nên được đặt tên dưới dạng danh từ
   - các protocol miêu tả một chức năng nào đó nên được đặt tên với đuôi là "-able" hoặc "-ible"
