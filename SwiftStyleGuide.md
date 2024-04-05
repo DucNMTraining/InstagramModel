@@ -31,10 +31,10 @@ Việc đặt tên mang tính mô tả và tính nhất quán sẽ khiến phầ
 - hết sức hạn chế viết tắt
 - sử dụng tiền lệ cho tên
 - ưu tiên sử dụng các hàm và thuộc tính của lớp thay vì các hàm tự do
--
+- chọn một kiểu đồng nhất cho các từ viết tắt (cùng viết hoa hoặc cùng viết thường)
 - đặt tên theo cùng một kiểu mẫu cho các hàm có cùng dạng chức năng
 - hạn chế trả về quá nhiều kiểu dữ liệu
-- chọn tên tham số thật tốt giúp chức hàm dễ hiểu hơn
+- chọn tên tham số thật tốt để nó không chỉ là tham số mà nó còn là một phần của tài liệu
 - ưu tiên đặt tên cho tham số đầu tiên thay vì đặt tên nó trong tên hàm, ngoại từ các trường hợp đặc biệt như "Delegates"
 - đặt tên cho các tham số là closure hoặc tuple
 - tận dụng các tham số mặc định
@@ -456,13 +456,13 @@ Không sử dụng __(Void)__ để thể hiện sự thiếu đầu vào, chỉ
 
 ## Gọi hàm
 
-  Phản ánh phong cách khai báo hàm tại thời điểm gọi. Gọi hàm phù hợp trên một dòng được viết như sau:
+  Phản ánh chức năng của hàm tại thời điểm gọi. Cách gọi hàm phù hợp trên một dòng được viết như sau:
 
   ```swift
   let success = reticulateSplines(splines)
   ```
 
-  Nếu cần phải wrapped, để mỗi tham số ở một dùng và thụt lề 1 level:
+  Nếu cần phải wrapped, để mỗi tham số ở một dòng và thụt lề 1 level:
 
   ```swift
   let success = reticulateSplines(
@@ -525,7 +525,7 @@ let value = numbers
 
 ## Kiểu dữ liệu
 
-Luôn luôn sử dụng các kiểu dữ liệu gốc của Swift khi có sẵn. Swift còn cung cấp khả năng kết nới với Objective-C nên có thể sử dụng đầy đủ bộ phương thức nếu cần.
+Luôn luôn sử dụng các kiểu dữ liệu gốc của Swift khi có sẵn. Swift còn cung cấp khả năng kết nối với Objective-C nên có thể sử dụng đầy đủ bộ phương thức nếu cần.
 
 - Đề xuất:
 
@@ -554,7 +554,7 @@ Trong khi code, sử dụng __CGFloat__ nếu nó khiến cho code ngắn gọn 
 
 Hằng được định nghĩa bằng cách sử dụng từ khoá __let__ và biến với từ khoá __var__. Luôn luôn sử dụng __let__ thay cho __var__ nếu giá trị của biến là không đổi.
 Tip: Một kỹ thuật tốt đó là luôn sử dụng __let__ khi khai báo và chỉ thay đổi thành __var__ nếu trình biên dịch yêu cầu.
-Có thể định nghĩa hằng số trên một type thay vì trên một instance của nó bằng cách sử dụng thuộc tính của type đó. Để khai báo một thuộc tính của type là hằng số và sử dụng mà không cần instance thì ta chỉ cần dùng __static let__. Cách này thường được ưu thích hơn các hằng số toàn cục vì nó dễ phân biệt hơn các thuộc tính instance. Ví dụ:
+Có thể định nghĩa hằng số trên một type thay vì trên một instance của nó bằng cách sử dụng thuộc tính của type đó. Để khai báo một thuộc tính của type là hằng số và sử dụng mà không cần instance thì ta chỉ cần dùng __static let__. Cách này thường được ưa thích hơn các hằng số toàn cục vì nó dễ phân biệt hơn các thuộc tính instance. Ví dụ:
 
 - Đề xuất:
 
@@ -582,8 +582,8 @@ Các hàm static và các type property làm việc giống như những hàm gl
 
 ### Optionals
 
-Khai báo biến hoặc hàm với kiểu trả về là optional với dấu __?__ ở cuối, khi đó các giá trị được chấp nhận có thể là __nil__.
-Sử dụng unwrapped ngầm với dấu __!__ chỉ cho biến hằng mà đã biết chắc rằng nó sẽ được khởi tạo sau trước khi sử dụng, giống như subview sẽ được set up trong __viewDidLoad()__. Ưu tiên sử dụng binding cho optional hơn là unwrapped ngầm trong phần lớn các trường hợp.
+Khai báo biến hoặc hàm có kiểu trả về là optional với dấu __?__ ở cuối, khi đó các giá trị được chấp nhận có thể là __nil__.
+Sử dụng unwrapped ngầm với dấu __!__ chỉ cho biến hằng mà đã biết chắc rằng nó sẽ được khởi tạo trước khi sử dụng, giống như subview sẽ được set up trong __viewDidLoad()__. Ưu tiên sử dụng binding cho optional hơn là unwrapped ngầm trong phần lớn các trường hợp.
 Khi truy cập vào một giá trị optional, sử dụng optional chaining nếu giá trị đó chỉ truy cập một lần hoặc có nhiều optional trong chuỗi:
 
   ```swift
@@ -796,7 +796,7 @@ Kéo dài vòng đời của một đối tượng bằng cách sử dụng __[w
 ## Kiểm soát quyền truy cập
 
 Việc sử dụng __private__ và __fileprivate__ một cách thích hợp sẽ làm tăng tính rõ ràng cũng như tính đóng gói. Ưu tiên sử dụng __private__ hơn __fileprivate__, chỉ sử dụng __fileprivate__ khi trình biên dịch yêu cầu.
-Chỉ sử dụng __open__, __public__, và __internal__ khi bạn cần đầy đủ quyền truy cập.
+Chỉ sử dụng __open__, __public__, và __internal__ khi cần đầy đủ quyền truy cập.
 Sử dụng kiểm soát quyền truy cập đầu tiên khi xác định các thuộc tính. Thứ duy nhất nên có trước kiểm soát quyền truy cập đó là __static__ hoặc thuộc tính như __@IBAction__, __@IBOutlet__ và __@discardableResult__.
 
 - Đề xuất:
